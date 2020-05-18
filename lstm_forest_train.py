@@ -127,10 +127,10 @@ def test_LFS_direction(lf_datax,y_return,y_cross,var,seq,epoch):
     main_input = Input(shape=(seq,var),name='main_input')
     m=LSTM(15,return_sequences=False,kernel_regularizer=l2(0.01))(main_input)
     
-    m=Dense(30,activation='relu',kernel_initializer='he_normal')(m)
-    m=Dense(30,activation='relu',kernel_initializer='he_normal')(m)
+    m=Dense(30,activation='relu',kernel_initializer='glorot_normal')(m)
+    m=Dense(30,activation='relu',kernel_initializer='glorot_normal')(m)
     m=Dropout(0.3)(m)
-    m=Dense(30,activation='relu',kernel_initializer='he_normal')(m)
+    m=Dense(30,activation='relu',kernel_initializer='glorot_normal')(m)
     main_cross=Dense(2,activation='softmax',name='main_cross')(m)
 
     model=Model(inputs=main_input,outputs=[main_cross])
@@ -171,10 +171,10 @@ def test_LFS_return(data,y_return,y_cross,var,seq,epoch):
     main_input = Input(shape=(seq,var),name='main_input')
     m=LSTM(15,return_sequences=False)(main_input)
 
-    m=Dense(30,activation='relu',kernel_initializer='he_normal')(m)
-    m=Dense(30,activation='relu',kernel_initializer='he_normal')(m)
+    m=Dense(30,activation='relu',kernel_initializer='glorot_normal')(m)
+    m=Dense(30,activation='relu',kernel_initializer='glorot_normal')(m)
     m=Dropout(0.3)(m)
-    m=Dense(30,activation='relu',kernel_initializer='he_normal')(m)
+    m=Dense(30,activation='relu',kernel_initializer='glorot_normal')(m)
  
     main_return=Dense(1,activation='linear',name='main_return')(m)
     
@@ -214,22 +214,22 @@ def test_LFM(data,y_return,y_cross,var,seq,epoch):
     main_input = Input(shape=(seq,var),name='main_input')
     m=LSTM(15,return_sequences=False)(main_input)
     
-    m=Dense(30,activation='relu',kernel_initializer='he_normal')(m)
-    m=Dense(30,activation='relu',kernel_initializer='he_normal')(m)
+    m=Dense(30,activation='relu',kernel_initializer='glorot_normal')(m)
+    m=Dense(30,activation='relu',kernel_initializer='glorot_normal')(m)
     m=Dropout(0.3)(m)
-    m=Dense(30,activation='relu',kernel_initializer='he_normal')(m)
+    m=Dense(30,activation='relu',kernel_initializer='glorot_normal')(m)
     
 
-    main_cross=Dense(30,activation='relu',kernel_initializer='he_normal')(m)
-    main_cross=Dense(30,activation='relu',kernel_initializer='he_normal')(main_cross)
+    main_cross=Dense(30,activation='relu',kernel_initializer='glorot_normal')(m)
+    main_cross=Dense(30,activation='relu',kernel_initializer='glorot_normal')(main_cross)
     main_cross=Dropout(0.3)(m)
-    main_cross=Dense(30,activation='relu',kernel_initializer='he_normal')(main_cross)
+    main_cross=Dense(30,activation='relu',kernel_initializer='glorot_normal')(main_cross)
     main_cross=Dense(2,activation='softmax',name='main_cross')(main_cross)
 
-    main_return=Dense(30,activation='relu',kernel_initializer='he_normal')(m)
-    main_return=Dense(30,activation='relu',kernel_initializer='he_normal')(main_return)
+    main_return=Dense(30,activation='relu',kernel_initializer='glorot_normal')(m)
+    main_return=Dense(30,activation='relu',kernel_initializer='glorot_normal')(main_return)
     main_return=Dropout(0.3)(main_return)
-    main_return=Dense(30,kernel_initializer='he_normal')(main_return)
+    main_return=Dense(30,kernel_initializer='glorot_normal')(main_return)
     main_return=Dense(2,activation='linear',name='main_return')(main_return)
     
     model=Model(inputs=main_input,outputs=[main_cross,main_return])

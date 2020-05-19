@@ -24,7 +24,7 @@ config =tf.ConfigProto()
 config.gpu_options.per_process_gpu_memory_fraction=0.35
 session=tf.Session(config=config)
 
-def create(dataset,n):
+def create_timestep(dataset,n):
     dataX= []
     for i in range(len(dataset)-n+1):
         a = dataset[i:(i+n)]
@@ -94,7 +94,7 @@ def step_decay(epoch):
 
 def lstm_forest_model(var,index,data,seq):
     if var==4:
-        lf_datax=np.stack( [ create(data[index[0],:],seq),create(data[index[1],:],seq),create(data[index[2],:],seq),create(data[index[3],:],seq) ], 2)
+        lf_datax=np.stack( [ create_timestep(data[index[0],:],seq),create_timestep(data[index[1],:],seq),create_timestep(data[index[2],:],seq),create_timestep(data[index[3],:],seq) ], 2)
     return lf_datax
         
 

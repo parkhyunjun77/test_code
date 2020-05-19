@@ -230,7 +230,7 @@ def test_LFM(data,y_return,y_cross,var,seq,epoch):
     main_return=Dense(30,activation='relu',kernel_initializer='glorot_normal')(main_return)
     main_return=Dropout(0.3)(main_return)
     main_return=Dense(30,kernel_initializer='glorot_normal')(main_return)
-    main_return=Dense(2,activation='linear',name='main_return')(main_return)
+    main_return=Dense(1,activation='linear',name='main_return')(main_return)
     
     model=Model(inputs=main_input,outputs=[main_cross,main_return])
     model.compile(optimizer='adam',loss={'main_cross':'categorical_crossentropy','main_return':'mean_squared_error'},

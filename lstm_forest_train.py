@@ -66,16 +66,20 @@ snp_return,snp_direction=np.array(snp_raw['return']),np.array(snp_raw['direction
 
 stock_lst=['snp']
 #stock_lst=['snp','sse','kos']
+sequence=[50]
+#sequence=[5,10,20,30,50,100]
 variable=[4] 
-len_stock_len_variable,len_sequence=len(stock_lst),len(variable),len(sequence)
+len_stock,len_variable,len_sequence=len(stock_lst),len(variable),len(sequence)
 mod = sys.modules[__name__]
 
-for i in range(len_stock_len_variable):
-  for j in range(len_stock_len_variable):
-    setattr(mod, 'lfs_return_{}_var{}_se50'.format(stock_lst[i],variable[j]), [])
-    setattr(mod, 'lfs_direction_{}_var{}_se50'.format(stock_lst[i],variable[j]), [])
-    setattr(mod, 'lfm_{}}_var{}_se50'.format(stock_lst[i],variable[j]), [])
+for i in range(len_stock):
+  for v in range(len_variable):
+    for j in range(len_sequence):
+        setattr(mod, 'lfs_return_{}_var{}_se{}'.format(stock_lst[i],variable[v],sequence[s]), [])
+        setattr(mod, 'lfs_direction_{}_var{}_se{}'.format(stock_lst[i],variable[v],sequence[s]), [])
+        setattr(mod, 'lfm_{}_var{}_se{}'.format(stock_lst[i],variable[v],sequence[s]), [])
 
+        
 drop_rate=0.5
 initial_rate=0.001
 step_epoch=50
@@ -252,16 +256,24 @@ def test_LFM(data,y_return,y_cross,var,seq,epoch):
     print("test evaluate",model.evaluate(test_x,[test_y_cross,test_y_return]))
     return lfm_predict
 
+    #If you want to verify the index, train prediction
+    """
+    lfm_train_predict=model.predict(train_x)
+    return lfm_predict, index, lfm_train_predict
+    """
+
+
 
 
 # ensamble LSTM-Forest
 epoch=300
-for p in range(100):
-  for i in range(len_variable):          
-            print('snp  %s -th lstm forest, variable %s, sequence 50 ' % (p,variable[i]))
-            getattr(mod,'lfm_snp_var{}_se50'.format(variable[i],sequence[j])).append(test_LFM(snp_x,snp_y1,snp_y2,variable[i],50,epoch=epoch))
-            getattr(mod,'lfs_direction_snp_var{}_se50'.format(variable[i],sequence[j])).append(test_LFS_direction(snp_x,snp_y1,snp_y2,variable[i],50,epoch=epoch))
-            getattr(mod,'lfs_return_snp_var{}_se50'.format(variable[i],sequence[j])).append(test_LFS_return(snp_x,snp_y1,snp_y2,variable[i],50,epoch=epoch))
+for p in range(100): #number of the LSTM
+    for v in range(len_variable): # number of variable 
+        for s in range(len_sequence): # timestep
+            print('snp  %s -th lstm forest, variable %s, sequence 50 ' % (p,variable[v]))
+            getattr(mod,'lfm_snp_var{}_se{}'.format(variable[v],sequence[s])).append(test_LFM(snp_x,snp_y1,snp_y2,variable[v],sequence[s],epoch=epoch))
+            getattr(mod,'lfs_direction_snp_var{}_se{}'.format(variable[v],sequence[s])).append(test_LFS_direction(snp_x,snp_y1,snp_y2,variable[v],sequence[s],epoch=epoch))
+            getattr(mod,'lfs_return_snp_var{}_se{}'.format(variable[v],sequence[s])).append(test_LFS_return(snp_x,snp_y1,snp_y2,variable[v],sequence[s],epoch=epoch))
 
 
 

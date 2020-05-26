@@ -13,7 +13,6 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint,LearningRateScheduler
 from keras.optimizers import SGD, Adam, RMSprop
 from keras.layers.merge import concatenate
 import keras.backend as K
-from pandas_datareader import data as pdr
 from tensorflow.python.client import device_lib
 
 get_ipython().run_line_magic('matplotlib', 'inline')

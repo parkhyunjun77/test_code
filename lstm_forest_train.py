@@ -53,14 +53,14 @@ snp_raw=pd.read_excel("C:/Users/snp_data.xlsx",sheet_name='Sheet1',header=0)
 #kos_raw=pd.read_excel("C:/Users/kos_data.xlsx",sheet_name='Sheet1',header=0)
 
 # input data
-snp_x=np.array(snp_raw.iloc[:,:-2])
-#sse_x=np.array(sse_raw.iloc[:,:-2])
-#kos_x=np.array(kos_raw.iloc[:,:-2])
+snp_x=np.array(snp_raw.iloc[:,:-3])
+#sse_x=np.array(sse_raw.iloc[:,:-3])
+#kos_x=np.array(kos_raw.iloc[:,:-3])
 
 # output data
-snp_return,snp_direction=np.array(snp_raw['return']),np.array(snp_raw['direction'])
-#sse_return,sse_direction=np.array(sse_raw['return']),np.array(sse_raw['direction'])
-#kos_return,kos_direction=np.array(kos_raw['return']),np.array(kos_raw['direction'])
+snp_return,snp_direction=np.array(snp_raw['return']),np.array(snp_raw.iloc[:,-2:])
+#sse_return,sse_direction=np.array(sse_raw['return']),np.array(sse_raw.iloc[:,-2:])
+#kos_return,kos_direction=np.array(kos_raw['return']),np.array(kos_raw.iloc[:,-2:])
 
 
 stock_lst=['snp']
@@ -68,6 +68,7 @@ stock_lst=['snp']
 sequence=[50]
 #sequence=[5,10,20,30,50,100]
 variable=[4] 
+#variable=[4,9,13,22,43]
 len_stock,len_variable,len_sequence=len(stock_lst),len(variable),len(sequence)
 mod = sys.modules[__name__]
 
@@ -266,10 +267,10 @@ def test_LFM(data,y_return,y_cross,var,seq,epoch):
 
 # ensamble LSTM-Forest
 epoch=300
-for p in range(100): #number of the LSTM
+for L in range(100): #number of the LSTM
     for v in range(len_variable): # number of variable 
         for s in range(len_sequence): # timestep
-            print('snp  %s -th lstm forest, variable %s, sequence 50 ' % (p,variable[v]))
+            print('snp  %s -th lstm forest, variable %s, sequence 50 ' % (L,variable[v]))
             getattr(mod,'lfm_snp_var{}_se{}'.format(variable[v],sequence[s])).append(test_LFM(snp_x,snp_y1,snp_y2,variable[v],sequence[s],epoch=epoch))
             getattr(mod,'lfs_direction_snp_var{}_se{}'.format(variable[v],sequence[s])).append(test_LFS_direction(snp_x,snp_y1,snp_y2,variable[v],sequence[s],epoch=epoch))
             getattr(mod,'lfs_return_snp_var{}_se{}'.format(variable[v],sequence[s])).append(test_LFS_return(snp_x,snp_y1,snp_y2,variable[v],sequence[s],epoch=epoch))

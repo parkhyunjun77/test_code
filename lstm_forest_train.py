@@ -72,9 +72,9 @@ variable=[4]
 len_stock,len_variable,len_sequence=len(stock_lst),len(variable),len(sequence)
 mod = sys.modules[__name__]
 
-for i in range(len_stock):
+for i in range(len_stock): # snp, sse, kos
   for v in range(len_variable):
-    for j in range(len_sequence):
+    for s in range(len_sequence):
         setattr(mod, 'lfs_return_{}_var{}_se{}'.format(stock_lst[i],variable[v],sequence[s]), [])
         setattr(mod, 'lfs_direction_{}_var{}_se{}'.format(stock_lst[i],variable[v],sequence[s]), [])
         setattr(mod, 'lfm_{}_var{}_se{}'.format(stock_lst[i],variable[v],sequence[s]), [])

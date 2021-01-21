@@ -103,7 +103,7 @@ def lstm_forest_model(var,index,data,seq):
         if i==0:
             lf_datax=np.stack([create_timestep(data[index[0],:],seq)],2)            
         else:
-            lf_datax=lf_datax([lf_datax,creat_timestep(data[index[i],:],seq)],2)
+            lf_datax=lf_datax([lf_datax,create_timestep(data[index[i],:],seq)],2)
     return lf_datax
         
 

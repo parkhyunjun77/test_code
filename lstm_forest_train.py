@@ -98,14 +98,17 @@ def step_decay(epoch):
     return lrate
 
 
-def lstm_forest_model(var,index,data,seq):    
+def lstm_forest_model(var,index,data,seq):
     for i in range(var):
         if i==0:
-            lf_datax=np.stack([create_timestep(data[index[0],:],seq)],2)            
-        else:
-            lf_datax=np.stack([lf_datax,create_timestep(data[index[i],:],seq)],2)
-    return lf_datax
+            lf_datax=create_timestep(data[:,index[0]],seq)
+            lf_datax=lf_datax.reshape((-1,seq,1))      
+         else:
+            lf_datax_i=create_timestep(data[:,index[i]],seq).reshape((-1,seq,1))      
+            lf_datax=np.concatenate((lf_datax,lf_datax_i),axis=2)           
+     return lf_datax
         
+
 
 def test_LFS_direction(lf_datax,y_return,y_cross,var,seq,epoch):
    
